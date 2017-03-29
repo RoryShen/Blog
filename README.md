@@ -3,3 +3,5 @@
 > 此方法精度较低，误差较大，不适合用来对比照片等，有光线变化的图片，比较适合用于对比两张截图。照片的对比，在另一篇文章中介绍，使用汉明距离进行图像对比。
 
 &emsp;&emsp;我们接下来来看看最简单的图像对比如何操作。
+难得写了。。。[http://www.rory.tech/2017/03/16/ImageProcessInUiautomator2-0/](http://www.rory.tech/2017/03/16/ImageProcessInUiautomator2-0/ "传送门")传送门：
+

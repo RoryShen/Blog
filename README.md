@@ -1,2 +1,5 @@
-# Blog
-博客代码的示例，用分支来做区分。主分支为一个空项目
+# ContentProvider 在自动化中的使用
+
+一个简单的示例，用来展示在UiAutomator 2.0中使用 Content Provider.
+
+

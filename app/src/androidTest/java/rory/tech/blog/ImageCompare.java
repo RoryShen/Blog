@@ -2,9 +2,11 @@ package rory.tech.blog;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.uiautomator.UiDevice;
 
 import org.junit.Test;
-
 
 
 /**
@@ -13,6 +15,7 @@ import org.junit.Test;
 
 public class ImageCompare {
     private static UiDevice mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
     /**
      * If you want compare two image is same or not,you can use this method.
      * I recommend use method to compare two screen short.
@@ -60,9 +63,13 @@ public class ImageCompare {
 
         return false;
     }
-    @Test
-    public void ImageCompare(){
 
-        isSameAs();
+    @Test
+    public void ImageCompare() {
+        String path = Environment.getExternalStorageDirectory().toString();
+        String origin = path + "/Pictures/Screenshots/origin.png";
+        String compare = path + "/Pictures/Screenshots/compare.png";
+        isSameAs(origin, compare, 0.8);
+        System.out.println("The Compare Result is:"+isSameAs(origin, compare, 0.8));
     }
 }

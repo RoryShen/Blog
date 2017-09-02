@@ -26,7 +26,7 @@ public class ExcelReader {
     // 从传入的文件流里读取excel内容，并放到data集合数组里。
 
     public ExcelReader(final InputStream excelInputStream) throws IOException {
-        this.data = loadFromSpreadsheet(excelInputStream);
+        this.data = readExcelData(excelInputStream);
     }
 
     // put the data in collection and return the data.
@@ -35,31 +35,38 @@ public class ExcelReader {
     }
 
     //从文件流中读取sheet里的信息，并放到一个Object数组里
-    private Collection<Object[]> loadFromSpreadsheet(final InputStream excelFile)
+    private Collection<Object[]> readExcelData(final InputStream excelFile)
             throws IOException {
-        //把excel解析成POIFSFileSystem文件
+        //新建一个Excel工作簿文件
         HSSFWorkbook workbook = new HSSFWorkbook(excelFile);
 
+        //用来存放行、列、单元格里的数据
         data = new ArrayList<Object[]>();
-        //通过给定的下标获取一个sheet
+        //获取第一个sheet
         Sheet sheet = workbook.getSheetAt(0);
-        //统计列的数量
+        //统计sheet里不为空的行
         int numberOfColumns = countNonEmptyColumns(sheet);
+        //新建两个数组用来存放列和列里面的数据
         List<Object[]> rows = new ArrayList<Object[]>();
         List<Object> rowData = new ArrayList<Object>();
+        int rowNum = sheet.getPhysicalNumberOfRows();
         //遍历解析sheet里的数据
-        for (Row row : sheet) {
+        //  for (Row row : sheet) {
+        //把i的默认值设置为1，不读取第一列，标题的内容
+        for (int i = 1; i < rowNum; i++) {
             //如果row里的为空，则退出循环
+            Row row = sheet.getRow(i);
             if (isEmpty(row)) {
                 break;
             } else {
                 rowData.clear();
                 //循环遍历所有列
+                //可以修改column的默认值，指定从第几行开始读取数据
                 for (int column = 0; column < numberOfColumns; column++) {
                     //读取所有列里的内容
                     Cell cell = row.getCell(column);
 
-                    rowData.add(objectFrom(workbook, cell));
+                    rowData.add(cellFormatCheck(workbook, cell));
                 }
                 rows.add(rowData.toArray());
             }
@@ -75,15 +82,17 @@ public class ExcelReader {
         return rowIsEmpty;
     }
 
-    /**
-     * Count the number of columns, using the number of non-empty cells in the
-     * first row.
+    /*
+     * 判断不为空的行数，通过第一行的不为空的单元格
      */
     private int countNonEmptyColumns(final Sheet sheet) {
         Row firstRow = sheet.getRow(0);
         return firstEmptyCellPosition(firstRow);
     }
 
+    /*
+    获取第一行不为空的单元格数量
+     */
     private int firstEmptyCellPosition(final Row cells) {
         int columnCount = 0;
         for (Cell cell : cells) {
@@ -96,7 +105,7 @@ public class ExcelReader {
     }
 
 
-    private Object objectFrom(final HSSFWorkbook workbook, final Cell cell) {
+    private Object cellFormatCheck(final HSSFWorkbook workbook, final Cell cell) {
         Object cellValue = null;
         //判断对应cell（单元格）的值，并读取出来。
         if (cell.getCellTypeEnum() == CellType.STRING) {
@@ -124,7 +133,10 @@ public class ExcelReader {
         return cellValue;
     }
 
-    //判断单元格的格式类型
+    /*判断单元格里的公式类型
+    =SUM(A1:E1*{1,2,3,4,5}
+
+    */
     private Object evaluateCellFormula(final HSSFWorkbook workbook, final Cell cell) {
         FormulaEvaluator evaluator = workbook.getCreationHelper()
                 .createFormulaEvaluator();

@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'Panda'
+            keyPassword '123456'
+            storeFile file('E:/02.App Cache/02.BaiduCloud/Panda.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
-
     defaultConfig {
         applicationId "tech.rory.blogdemo"
         minSdkVersion 19
@@ -17,6 +24,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -26,10 +37,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
     /*注意:
-                    testCompile和androidTestCompile是不一样的，testCompile是用来设置本地JUnit的依赖，此代码不在Android设备上运行
-                    androidTestCompile是设置Android系统的依赖，他它的代码要在Android设备上运行
-                    依赖：我的理解是包或支持类库
-                   */
+                                    testCompile和androidTestCompile是不一样的，testCompile是用来设置本地JUnit的依赖，此代码不在Android设备上运行
+                                    androidTestCompile是设置Android系统的依赖，他它的代码要在Android设备上运行
+                                    依赖：我的理解是包或支持类库
+                                   */
     //指定uiautomator的支持包
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
     //指定使用的runner是0.5版

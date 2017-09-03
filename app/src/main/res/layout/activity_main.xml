@@ -11,7 +11,30 @@
     tools:context="rory.tech.blog.MainActivity">
 
     <TextView
+        android:id="@+id/tv_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="This is Demo for show Data driven！！！" />
+
+    <Button
+        android:id="@+id/bt_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="choose"
+        android:text="选择文件"
+        android:layout_alignBaseline="@+id/bt_Run"
+        android:layout_alignBottom="@+id/bt_Run"
+        android:layout_toStartOf="@+id/bt_Run" />
+
+    <Button
+        android:id="@+id/bt_Run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="run"
+        android:text="运行"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="82dp"
+        android:layout_below="@+id/tv_show"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

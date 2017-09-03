@@ -1,6 +1,9 @@
 package rory.tech.blog;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiScrollable;
@@ -51,7 +54,10 @@ public class DataDrivenTestCase {
 
     @Parameterized.Parameters
     public static Collection testDataSource() throws IOException {
-        InputStream excelURL = new FileInputStream(Environment.getExternalStorageDirectory() + "/1.xls");
+        SharedPreferences mPreferences = InstrumentationRegistry.getTargetContext().getSharedPreferences("config", Context.MODE_PRIVATE);
+        String url = mPreferences.getString("dataUrl", "");
+        System.out.println("ABC" + url);
+        InputStream excelURL = new FileInputStream(url);
         return new ExcelReader(excelURL).getData();
 
 

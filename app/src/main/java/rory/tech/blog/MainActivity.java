@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void choose(View view) {
-        Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("application/vnd.ms-excel");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -49,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
             case Activity.RESULT_OK:
                 Uri uri = data.getData();
                 Toast.makeText(this, "文件路劲：" + uri.getPath().toString(), Toast.LENGTH_SHORT).show();
-                mPreferences.edit().putString("dataUrl", uri.getPath().toString()).commit();
+                mPreferences.edit().putString("dataUrl", uri.getPath().toString()).apply();
+                if (!mPreferences.getBoolean("testData", false)) {
+                    mPreferences.edit().putBoolean("testData", true).apply();
+                }
+                System.out.println("ABC"+mPreferences.getBoolean("testData", false));
                 break;
             case Activity.RESULT_CANCELED:
                 Toast.makeText(this, "您没选择任何文件哦！", Toast.LENGTH_SHORT).show();
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void run(View view) {
-        if (mPreferences.getBoolean("testData", false) & mPreferences.getString("dataUrl", "").equals("")) {
+        if (!mPreferences.getBoolean("testData", false) ) {
             Toast.makeText(this, "请下载或选择测试数据！", Toast.LENGTH_SHORT).show();
 
         } else {

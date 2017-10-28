@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private String downloadUrl = "http://192.168.31.212:8080/1.xls";
+    private String downloadUrl = "http://www.rory.tech/TestData/1.xls";
     private SharedPreferences mPreferences;
     private String testRes = "";
 
@@ -37,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void choose(View view) {
-       // Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/vnd.ms-excel");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, 1);
+
+        Toast.makeText(this, "不可用！", Toast.LENGTH_SHORT).show();
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        intent.setType("application/vnd.ms-excel");
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        startActivityForResult(intent, 1);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!mPreferences.getBoolean("testData", false)) {
                     mPreferences.edit().putBoolean("testData", true).apply();
                 }
-                System.out.println("ABC"+mPreferences.getBoolean("testData", false));
+                System.out.println("ABC" + mPreferences.getBoolean("testData", false));
                 break;
             case Activity.RESULT_CANCELED:
                 Toast.makeText(this, "您没选择任何文件哦！", Toast.LENGTH_SHORT).show();
@@ -63,11 +64,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void run(View view) {
-        if (!mPreferences.getBoolean("testData", false) ) {
+        if (!mPreferences.getBoolean("testData", false)) {
             Toast.makeText(this, "请下载或选择测试数据！", Toast.LENGTH_SHORT).show();
 
         } else {
             new UiautomatorThread().start();
+            // startActivity(new Intent(this,));
 
         }
     }
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             super.run();
-            String command = generateCommand("rory.tech.blog", "DataDrivenTestCase", "OpenAppFormList");
+            String command = generateCommand("test.ckt.testcase", "DataDrivenTestCase", "OpenAppFormList");
             CMDUtils.CMD_Result rs = CMDUtils.runCMD(command, true, true);
             Log.e("TAG", "run: " + rs.error + "-------" + rs.success);
         }
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
          * @return
          */
         public String generateCommand(String pkgName, String clsName, String mtdName) {
-            String command = "am instrument  --user 0 -w -r   -e debug false -e class "
+            String command = "am instrument  -w -r   -e debug false -e class "
                     + pkgName + "." + clsName + "#" + mtdName + " "
                     + pkgName + ".test/android.support.test.runner.AndroidJUnitRunner";
             Log.e("test1: ", command);

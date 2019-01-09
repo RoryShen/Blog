@@ -245,4 +245,4 @@ public class getTime extends AbstractFunction {
 - 把导出的jar文件放到Jmeter安装路径的==lib/ext== 目录下
 - 重启jmeter就可以了效果如下：
 <br/>
-![](postImg/function_custom_done_rory_20190108.png)
+ ![](postImg/function_custom_done_rory_20190108.png)

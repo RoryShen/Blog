@@ -243,6 +243,5 @@ public class getTime extends AbstractFunction {
   - 指定存放路劲,导出类文件和资源，然后点击Finish<br/>
   ![](postImg/function_export_jar_2_Rory_20190107.png)
 - 把导出的jar文件放到Jmeter安装路径的==lib/ext== 目录下
-- 重启jmeter就可以了效果如下：
-<br/>
+- 重启jmeter就可以了效果如下：<br/>
  ![](postImg/function_custom_done_rory_20190108.png)
